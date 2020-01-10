@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="10dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="1dp"
+        app:contentPadding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_post_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="参数1" />
+
+            <TextView
+                android:id="@+id/tv_author_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="参数2" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="参数3" />
+
+            <TextView
+                android:id="@+id/tv_created_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="参数4" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
