@@ -3,6 +3,8 @@ package com.lvtong.retrofitdemo.news;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
@@ -56,7 +58,20 @@ public class NewsInfoActivity extends AppCompatActivity {
 
     private void initView() {
         mWebView = findViewById(R.id.wv_detail);
+        System.out.println(mWebView.getSettings().getUserAgentString());
+
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        mWebView.getSettings().setAllowFileAccess(true);// 设置允许访问文件数据
+        mWebView.getSettings().setSupportZoom(true);
+        mWebView.getSettings().setBuiltInZoomControls(true);
+        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setDatabaseEnabled(true);
         mWebView.loadUrl("https://blog.csdn.net/" + userName + "/article/details/" + newsId);
+        mWebView.setWebChromeClient(new WebChromeClient());
+
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
