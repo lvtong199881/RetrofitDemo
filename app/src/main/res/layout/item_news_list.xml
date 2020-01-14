@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingTop="2dp"
-    android:paddingBottom="2dp"
-    android:orientation="vertical">
+    android:paddingBottom="2dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="10dp"
-        app:cardUseCompatPadding="true"
         app:cardElevation="1dp"
+        app:cardUseCompatPadding="true"
         app:contentPadding="8dp">
 
         <LinearLayout
@@ -23,28 +23,69 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_post_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="参数1" />
-
-            <TextView
-                android:id="@+id/tv_author_avatar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="参数2" />
-
-            <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="参数3" />
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                tools:text="标题" />
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                tools:text="描述" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_author_avatar"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_launcher_background"
+                    android:layout_marginEnd="8dp"
+                    tools:text="用户头像" />
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="8dp"
+                    tools:text="用户名" />
+                <TextView
+                    android:id="@+id/tv_read"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="8dp"
+                    tools:text="阅读" />
+                <TextView
+                    android:id="@+id/tv_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="8dp"
+                    tools:text="点赞" />
+                <TextView
+                    android:id="@+id/tv_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="8dp"
+                    tools:text="评论" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_created_at"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="参数4" />
+                tools:text="创建时间" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

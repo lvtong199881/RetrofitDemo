@@ -18,6 +18,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * @author 22939
+ */
 public class MainActivity extends AppCompatActivity {
 
     private EditText mEditText;
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         //创建网络请求接口的实例
-        RequestInterface request = retrofit.create(RequestInterface.class);
+        TranslationService request = retrofit.create(TranslationService.class);
 
         //对发送请求进行封装
         Call<Translation> call = request.getCall(translationString);

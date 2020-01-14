@@ -50,4 +50,15 @@ public class News {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "post_id='" + post_id + '\'' +
+                ", author_avatar='" + author_avatar + '\'' +
+                ", title='" + title + '\'' +
+                ", created_at='" + created_at + '\'' +
+                ", content='"  + '\'' +
+                '}'+"\n";
+    }
 }

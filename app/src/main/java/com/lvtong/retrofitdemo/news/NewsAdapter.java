@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lvtong.retrofitdemo.Constants;
 import com.lvtong.retrofitdemo.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.List;
 
@@ -21,9 +25,24 @@ import java.util.List;
  */
 class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private Context mContext;
-    private List<News> mNewsList;
+    private List<CSDNNews.Article> mNewsList;
+    // 创建ImageLoader对象
+    private ImageLoader imageLoader = ImageLoader.getInstance();
+    // 创建DisplayImageOptions对象并进行相关选项配置
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.ic_launcher_background)// 设置图片下载期间显示的图片
+            .showImageForEmptyUri(R.drawable.ic_launcher_background)// 设置图片Uri为空或是错误的时候显示的图片
+            .showImageOnFail(R.drawable.ic_launcher_background)// 设置图片加载或解码过程中发生错误显示的图片
+            .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
+            .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
+            .displayer(new RoundedBitmapDisplayer(20))// 设置成圆角图片
+            .build();// 创建DisplayImageOptions对象
 
-    NewsAdapter(Context newsActivity, List<News> newsList) {
+    public void setNewsList(List<CSDNNews.Article> mNewsList) {
+        this.mNewsList = mNewsList;
+    }
+
+    NewsAdapter(Context newsActivity, List<CSDNNews.Article> newsList) {
         mContext = newsActivity;
         mNewsList = newsList;
     }
@@ -37,15 +56,24 @@ class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NewsAdapter.ViewHolder holder, int position) {
-        News news = mNewsList.get(position);
-        holder.tvPostId.setText(news.getPost_id());
-        holder.tvAuthorAvatar.setText(news.getAuthor_avatar());
+        CSDNNews.Article news = mNewsList.get(position);
         holder.tvTitle.setText(news.getTitle());
+        holder.tvDesc.setText(news.getDesc());
+        holder.tvAuthor.setText(news.getNickname());
+
+        imageLoader.displayImage(news.getAvatar(), holder.ivAuthorAvatar, options);
+        holder.tvRead.setText("阅读 " + news.getViews());
+        holder.tvLike.setText("点赞 " + news.getDigg());
+        holder.tvComment.setText("评论 " + news.getComments());
         holder.tvCreatedAt.setText(news.getCreated_at());
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, NewsInfoActivity.class);
-            intent.putExtra(Constants.NEWS_POST_ID, news.getPost_id());
-            mContext.startActivity(intent);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,NewsInfoActivity.class);
+                intent.putExtra(Constants.USER_NAME,news.getUser_name());
+                intent.putExtra(Constants.ARTICLE_ID,Integer.parseInt(news.getId()));
+                mContext.startActivity(intent);
+            }
         });
     }
 
@@ -55,17 +83,25 @@ class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvPostId;
-        private TextView tvAuthorAvatar;
+        private TextView tvDesc;
+        private TextView tvAuthor;
+        private ImageView ivAuthorAvatar;
         private TextView tvTitle;
         private TextView tvCreatedAt;
+        private TextView tvLike;
+        private TextView tvComment;
+        private TextView tvRead;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvPostId = itemView.findViewById(R.id.tv_post_id);
-            tvAuthorAvatar = itemView.findViewById(R.id.tv_author_avatar);
+            tvDesc = itemView.findViewById(R.id.tv_desc);
+            tvAuthor = itemView.findViewById(R.id.tv_author);
+            ivAuthorAvatar = itemView.findViewById(R.id.iv_author_avatar);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvCreatedAt = itemView.findViewById(R.id.tv_created_at);
+            tvLike = itemView.findViewById(R.id.tv_like);
+            tvComment = itemView.findViewById(R.id.tv_comment);
+            tvRead = itemView.findViewById(R.id.tv_read);
         }
     }
 }

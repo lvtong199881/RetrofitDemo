@@ -10,7 +10,7 @@ import retrofit2.http.Query;
  * @author tong.lv
  * @date 2020 /1/10
  */
-public interface RequestInterface {
+public interface TranslationService {
 
     /**
      * 注解里传入 网络请求 的部分URL地址

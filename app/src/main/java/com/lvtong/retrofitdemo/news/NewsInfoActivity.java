@@ -3,6 +3,8 @@ package com.lvtong.retrofitdemo.news;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +28,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class NewsInfoActivity extends AppCompatActivity {
 
-    private String newsId = "";
+    private int newsId;
     private String newsInfo = "";
     private TextView tvNewsInfo;
+    private String userName;
+    private WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +45,31 @@ public class NewsInfoActivity extends AppCompatActivity {
 
     private void initData() {
         Intent intent = getIntent();
-        if (TextUtils.isEmpty(intent.getStringExtra(Constants.NEWS_POST_ID))) {
+        if (TextUtils.isEmpty(intent.getStringExtra(Constants.USER_NAME))) {
             finish();
         } else {
-            newsId = intent.getStringExtra(Constants.NEWS_POST_ID);
-            System.out.println("postId:" + intent.getStringExtra(Constants.NEWS_POST_ID));
+            userName = intent.getStringExtra(Constants.USER_NAME);
+            newsId = intent.getIntExtra(Constants.ARTICLE_ID, 0);
         }
         RichText.initCacheDir(this);
     }
 
     private void initView() {
-        tvNewsInfo = findViewById(R.id.tv_news_info);
+        mWebView = findViewById(R.id.wv_detail);
+        mWebView.loadUrl("https://blog.csdn.net/" + userName + "/article/details/" + newsId);
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //使用WebView加载显示url
+                view.loadUrl(url);
+                // 返回true
+                return true;
+            }
+        });
     }
 
     private void initMethod() {
-        request();
+//        request();
     }
 
     public void request() {
@@ -63,7 +77,7 @@ public class NewsInfoActivity extends AppCompatActivity {
         //创建Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()
                 // 设置 网络请求Url
-                .baseUrl("https://unidemo.dcloud.net.cn/")
+                .baseUrl("https://blog.csdn.net/")
                 //设置使用Gson解析
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -72,16 +86,16 @@ public class NewsInfoActivity extends AppCompatActivity {
         ApiManager request = retrofit.create(ApiManager.class);
 
         //对发送请求进行封装
-        Call<News> call = request.getNewsInfo(newsId);
+        Call<String> call = request.getCsdnNewsInfo(userName, newsId);
+        System.out.println(userName + " " + newsId);
 
         //发送网络请求(异步)
-        call.enqueue(new Callback<News>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(@NotNull Call<News> call, @NotNull Response<News> response) {
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                 System.out.println("连接成功");
                 if (response.body() != null) {
-                    newsInfo = response.body().getContent();
-                    setTitle(response.body().getTitle());
+                    newsInfo = response.body();
                     RichText.from(newsInfo).bind(this)
                             .showBorder(false)
                             .size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
@@ -90,9 +104,9 @@ public class NewsInfoActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NotNull Call<News> call, @NotNull Throwable t) {
-                Toast.makeText(NewsInfoActivity.this, "连接失败", Toast.LENGTH_SHORT).show();
-                System.out.println("连接失败");
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                Toast.makeText(NewsInfoActivity.this, "连接失败\n" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                System.out.println("连接失败\n" + t.getMessage());
             }
         });
     }
