@@ -31,8 +31,8 @@ public interface ApiManager {
     @GET("api/news/36kr/{newsId}")
     Call<News> getNewsInfo(@Path("newsId") String newsId);
 
-    @GET("api/articles?type=more&category=home&first_view=false")
-    Call<CSDNNews> getCsdnNews(@Query("shown_offset") long shownOffset);
+    @GET("api/articles?type=more&first_view=false")
+    Call<CSDNNews> getCsdnNews(@Query("category") String category, @Query("shown_offset") long shownOffset);
 
     @GET("{user_name}/article/details/{article_id}")
     Call<String> getCsdnNewsInfo(@Path("user_name") String userName, @Path("article_id") int articleId);
