@@ -9,11 +9,22 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 /**
  * @author tong.lv
  * @date 2020/1/14
  */
 public class MyApplication extends Application {
+
+    public static Retrofit retrofit = new Retrofit.Builder()
+            //设置网络请求的Url地址
+            .baseUrl("https://huazai.luckyzune.com/api/huazai/")
+            //设置数据解析器
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
     @Override
     public void onCreate() {
         super.onCreate();

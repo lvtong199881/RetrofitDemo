@@ -26,17 +26,28 @@ import java.util.List;
 class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private Context mContext;
     private List<CSDNNews.Article> mNewsList;
-    // 创建ImageLoader对象
+    /**
+     * 创建ImageLoader对象
+     */
     private ImageLoader imageLoader = ImageLoader.getInstance();
-    // 创建DisplayImageOptions对象并进行相关选项配置
+    /**
+     * 创建DisplayImageOptions对象并进行相关选项配置
+     */
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.drawable.ic_launcher_background)// 设置图片下载期间显示的图片
-            .showImageForEmptyUri(R.drawable.ic_launcher_background)// 设置图片Uri为空或是错误的时候显示的图片
-            .showImageOnFail(R.drawable.ic_launcher_background)// 设置图片加载或解码过程中发生错误显示的图片
-            .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
-            .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
-            .displayer(new RoundedBitmapDisplayer(20))// 设置成圆角图片
-            .build();// 创建DisplayImageOptions对象
+            // 设置图片下载期间显示的图片
+            .showImageOnLoading(R.drawable.img_loading)
+            // 设置图片Uri为空或是错误的时候显示的图片
+            .showImageForEmptyUri(R.drawable.img_load_fail)
+            // 设置图片加载或解码过程中发生错误显示的图片
+            .showImageOnFail(R.drawable.img_load_fail)
+            // 设置下载的图片是否缓存在内存中
+            .cacheInMemory(true)
+            // 设置下载的图片是否缓存在SD卡中
+            .cacheOnDisk(true)
+            // 设置成圆角图片
+            .displayer(new RoundedBitmapDisplayer(20))
+            // 创建DisplayImageOptions对象
+            .build();
 
     public void setNewsList(List<CSDNNews.Article> mNewsList) {
         this.mNewsList = mNewsList;
@@ -62,18 +73,15 @@ class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.tvAuthor.setText(news.getNickname());
 
         imageLoader.displayImage(news.getAvatar(), holder.ivAuthorAvatar, options);
-        holder.tvRead.setText("阅读 " + news.getViews());
-        holder.tvLike.setText("点赞 " + news.getDigg());
-        holder.tvComment.setText("评论 " + news.getComments());
+        holder.tvRead.setText(news.getViews());
+        holder.tvLike.setText(news.getDigg());
+        holder.tvComment.setText(news.getComments());
         holder.tvCreatedAt.setText(news.getCreated_at());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext,NewsInfoActivity.class);
-                intent.putExtra(Constants.USER_NAME,news.getUser_name());
-                intent.putExtra(Constants.ARTICLE_ID,Integer.parseInt(news.getId()));
-                mContext.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, NewsInfoActivity.class);
+            intent.putExtra(Constants.USER_NAME, news.getUser_name());
+            intent.putExtra(Constants.ARTICLE_ID, Integer.parseInt(news.getId()));
+            mContext.startActivity(intent);
         });
     }
 
