@@ -12,15 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".news.NewsInfoActivity" />
-        <activity android:name=".news.NewsActivity">
+        <activity
+            android:name=".MainPageActivity"
+            android:label="@string/title_activity_main_page">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".translation.MainActivity" />
+        <activity android:name=".news.NewsInfoActivity" />
     </application>
 
 </manifest>

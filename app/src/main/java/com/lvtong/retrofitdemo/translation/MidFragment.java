@@ -1,12 +1,16 @@
 package com.lvtong.retrofitdemo.translation;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.lvtong.retrofitdemo.R;
 
@@ -19,22 +23,21 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * @author 22939
+ * @author tong.lv
+ * @date 2020/1/27
  */
-public class MainActivity extends AppCompatActivity {
-
+public class MidFragment extends Fragment {
     private EditText mEditText;
     private TextView mTextView;
     private Button mButtonGet;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mEditText = findViewById(R.id.et_translate);
-        mTextView = findViewById(R.id.tv_translation);
-        mButtonGet = findViewById(R.id.bt_get);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_mid, container, false);
+        mEditText = root.findViewById(R.id.et_translate);
+        mTextView = root.findViewById(R.id.tv_translation);
+        mButtonGet = root.findViewById(R.id.bt_get);
         mButtonGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,9 +45,10 @@ public class MainActivity extends AppCompatActivity {
                         .toString());
             }
         });
+        return root;
     }
 
-    public void request(String translationString) {
+    private void request(String translationString) {
 
         //创建Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()

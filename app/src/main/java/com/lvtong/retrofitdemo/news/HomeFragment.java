@@ -1,16 +1,20 @@
 package com.lvtong.retrofitdemo.news;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.tabs.TabLayout;
 import com.lvtong.retrofitdemo.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +26,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * @author 22939
+ * @author tong.lv
+ * @date 2020/1/27
  */
-public class NewsActivity extends AppCompatActivity {
-
+public class HomeFragment extends Fragment {
     private RecyclerView rvNewsList;
     private TabLayout tlNewsType;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -38,24 +42,23 @@ public class NewsActivity extends AppCompatActivity {
             "数据库", "游戏开发", "移动开发", "运维", "人工智能", "安全", "云计算/大数据", "研发管理",
             "物联网", "计算机基础", "音视频开发", "其他"
     };
-    private ImageLoader imageLoader = ImageLoader.getInstance();
 
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
         initData();
-        initView();
+        initView(root);
         initMethod();
+        return root;
     }
 
     private void initData() {
         //no use
     }
 
-    private void initView() {
-        tlNewsType = findViewById(R.id.tl_news_type);
+    private void initView(View root) {
+        tlNewsType = root.findViewById(R.id.tl_news_type);
         for (String string : mTabList) {
             tlNewsType.addTab(tlNewsType.newTab().setText(string));
         }
@@ -76,17 +79,12 @@ public class NewsActivity extends AppCompatActivity {
 
             }
         });
-        rvNewsList = findViewById(R.id.rv_news_list);
-        rvNewsList.setLayoutManager(new LinearLayoutManager(this));
-        mSwipeRefreshLayout = findViewById(R.id.srl_refresh);
+        rvNewsList = root.findViewById(R.id.rv_news_list);
+        rvNewsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mSwipeRefreshLayout = root.findViewById(R.id.srl_refresh);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         //设置下拉刷新时的监听器，在重写的onRefresh方法中实现操作
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                request(currentCategory);
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(() -> request(currentCategory));
     }
 
     private void initMethod() {
@@ -162,7 +160,7 @@ public class NewsActivity extends AppCompatActivity {
                 System.out.println("连接成功" + response.body().getArticles().size());
                 mNewsList = response.body().getArticles();
                 if (mNewsAdapter == null) {
-                    mNewsAdapter = new NewsAdapter(NewsActivity.this, mNewsList);
+                    mNewsAdapter = new NewsAdapter(getActivity(), mNewsList);
                     rvNewsList.setAdapter(mNewsAdapter);
                 } else {
                     mNewsAdapter.setNewsList(mNewsList);
@@ -174,15 +172,9 @@ public class NewsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CSDNNews> call, Throwable t) {
-                Toast.makeText(NewsActivity.this, "连接失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "连接失败", Toast.LENGTH_SHORT).show();
                 System.out.println("连接失败");
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        imageLoader.clearMemoryCache();
-        super.onDestroy();
     }
 }
