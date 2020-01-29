@@ -1,6 +1,4 @@
-package com.lvtong.retrofitdemo.news;
-
-import java.util.List;
+package com.lvtong.retrofitdemo.home;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,22 +12,6 @@ import retrofit2.http.Query;
  * @date 2020 /1/11
  */
 public interface ApiManager {
-    /**
-     * Gets news list.
-     *
-     * @return the news list
-     */
-    @GET("api/news")
-    Call<List<News>> getNewsList();
-
-    /**
-     * Gets news info.
-     *
-     * @param newsId the news id
-     * @return the news info
-     */
-    @GET("api/news/36kr/{newsId}")
-    Call<News> getNewsInfo(@Path("newsId") String newsId);
 
     @GET("api/articles?type=more&first_view=false")
     Call<CSDNNews> getCsdnNews(@Query("category") String category, @Query("shown_offset") long shownOffset);

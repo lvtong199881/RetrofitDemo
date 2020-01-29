@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.lvtong.retrofitdemo.news.HomeFragment"
+        android:name="com.lvtong.retrofitdemo.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.lvtong.retrofitdemo.translation.MidFragment"
-        android:label="@string/title_dashboard"
+        android:name="com.lvtong.retrofitdemo.mid.MidFragment"
+        android:label="@string/title_mid"
         tools:layout="@layout/fragment_mid" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.lvtong.retrofitdemo.news.HomeFragment"
-        android:label="@string/title_notifications"
+        android:name="com.lvtong.retrofitdemo.home.HomeFragment"
+        android:label="@string/title_mine"
         tools:layout="@layout/fragment_mine" />
 </navigation>

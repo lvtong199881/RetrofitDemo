@@ -1,4 +1,4 @@
-package com.lvtong.retrofitdemo.translation;
+package com.lvtong.retrofitdemo.mid;
 
 /**
  * @author tong.lv
@@ -9,11 +9,13 @@ public class Translation {
     private int status;
 
     private content content;
+
     public static class content {
         private String from;
         private String to;
         private String vendor;
         private String out;
+        private String ph_en_mp3;
         private int errNo;
 
         public String getFrom() {
@@ -35,9 +37,15 @@ public class Translation {
         public int getErrNo() {
             return errNo;
         }
+
+        public String getPh_en_mp3() {
+            return ph_en_mp3;
+        }
     }
 
-    //定义 输出返回数据 的方法
+    /**
+     * 定义 输出返回数据 的方法
+     */
     public void show() {
         System.out.println(status);
 
@@ -46,6 +54,7 @@ public class Translation {
         System.out.println(content.vendor);
         System.out.println(content.out);
         System.out.println(content.errNo);
+        System.out.println(content.ph_en_mp3);
     }
 
     public int getStatus() {

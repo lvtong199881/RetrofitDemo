@@ -1,4 +1,4 @@
-package com.lvtong.retrofitdemo.translation;
+package com.lvtong.retrofitdemo.mid;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,4 +1,4 @@
-package com.lvtong.retrofitdemo.translation;
+package com.lvtong.retrofitdemo.mid;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,6 +31,8 @@ public class MidFragment extends Fragment {
     private TextView mTextView;
     private Button mButtonGet;
 
+    private Translation translation = new Translation();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,13 +40,8 @@ public class MidFragment extends Fragment {
         mEditText = root.findViewById(R.id.et_translate);
         mTextView = root.findViewById(R.id.tv_translation);
         mButtonGet = root.findViewById(R.id.bt_get);
-        mButtonGet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                request(mEditText.getText()
-                        .toString());
-            }
-        });
+        mButtonGet.setOnClickListener(v -> request(mEditText.getText()
+                .toString()));
         return root;
     }
 
@@ -74,14 +71,15 @@ public class MidFragment extends Fragment {
                     response.body()
                             .show();
                 }
-                Translation translation = response.body();
+                translation = response.body();
                 mTextView.setText("状态码(1为成功):" + translation.getStatus() + "\n"
                         + "翻译信息如下\n"
                         + "错误码(0为成功):" + translation.getContent().getErrNo() + "\n"
                         + "源语言:" + translation.getContent().getFrom() + "\n"
                         + "目标语言:" + translation.getContent().getTo() + "\n"
                         + "翻译结果:" + translation.getContent().getOut() + "\n"
-                        + "来源平台:" + translation.getContent().getVendor());
+                        + "来源平台:" + translation.getContent().getVendor() + "\n"
+                        + "英语发音:" + translation.getContent().getPh_en_mp3());
             }
 
             //请求失败时候的回调

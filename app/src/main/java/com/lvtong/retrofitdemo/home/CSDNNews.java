@@ -1,4 +1,4 @@
-package com.lvtong.retrofitdemo.news;
+package com.lvtong.retrofitdemo.home;
 
 import java.io.Serializable;
 import java.util.List;
